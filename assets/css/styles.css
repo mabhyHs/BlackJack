@@ -1,23 +1,30 @@
-html, body{
-    margin: 0px;
-    background-color: #2f4f30;
-    color: white;
+html,
+body {
+  margin: 0px;
+  background-color: #2f4f30;
+  color: white;
 }
 
-.title{
-    text-align: center;
-    padding: 2rem;
-    font-size: 1.5rem;
+.title {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.5rem;
 }
 
-.cards{
-    position: relative;
-    max-width: 150px;
-    left: 100px;
-    margin-left: -75px;
-
+.cards {
+  position: relative;
+  max-width: 150px;
+  left: 100px;
+  margin-left: -75px;
 }
 
-#computer-cards, #player-cards{
-height: 220px;
+#computer-cards,
+#player-cards {
+  height: 220px;
+}
+
+.btnDisabled {
+  cursor: not-allowed;
+  background-color: rgb(229, 229, 229) !important;
+  pointer-events: none;
 }

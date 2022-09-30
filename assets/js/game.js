@@ -5,12 +5,16 @@ const specialCards = ["A", "J", "Q", "K"];
 let playerPoints = 0;
 let computerPoints = 0;
 
-//HTML
+/*HTML*/
 const btnAskCard = document.querySelector("#btnAskCard");
+const btnStopGame = document.querySelector("#btnStopGame");
+const btnNewGame = document.querySelector("#btnNewGame");
+
 const showPointsSmalls = document.querySelectorAll("small");
 const divPlayerCards = document.querySelector("#player-cards");
+const divComputerCards = document.querySelector("#computer-cards");
 
-// crear nueva baraja
+/*CREAR BARAJA*/
 const createDeck = () => {
   for (let i = 2; i <= 10; i++) {
     for (let type of cardsTypes) {
@@ -28,7 +32,7 @@ const createDeck = () => {
 
 createDeck();
 
-// Tomar una carta
+/*LEVANTAR UNA CARTA*/
 const askCard = () => {
   if (deck.length === 0) {
     throw "No hay más cartas en el deck"; //chequeo si no hay más cartas en el deck
@@ -37,9 +41,7 @@ const askCard = () => {
   return card;
 };
 
-//askCard();
-
-// saber el valor de una carta
+/*SABER EL VALOR DE UNA CARTA*/
 const cardValue = (card) => {
   const value = card.substring(0, card.length - 1);
   return isNaN(value) ? (value === "A" ? 11 : 10) : value * 1;
@@ -47,8 +49,45 @@ const cardValue = (card) => {
 
 const valor = cardValue(askCard());
 
-// Listeners
-//Necesito poder "Escuchar" cuando se presiona un botón
+/*TURNO DE LA COMPUTADORA*/
+const computerTurn = (minPoints) => {
+  //utilizo do while ya que el ciclo debe ejecutarse al menos una vez
+  do {
+    const card = askCard();
+    computerPoints = computerPoints + cardValue(card);
+    showPointsSmalls[1].innerText = computerPoints;
+
+    //MOSTRAR LA IMG HTML
+    const cardImg = document.createElement("img");
+    cardImg.src = `./assets/cards/${card}.png `;
+    cardImg.classList.add("cards");
+    divComputerCards.append(cardImg);
+
+    if (minPoints > 21) {
+      break;
+    }
+  } while (computerPoints < minPoints && minPoints <= 21);
+
+  setTimeout(() => {
+    if (computerPoints === minPoints) {
+      alert("Nadie Gana");
+    } else if (minPoints > 21) {
+      alert("Computadora Gana!");
+    } else if (computerPoints > 21) {
+      alert("Jugador Gana!");
+    } else {
+      alert("computadora gana");
+    }
+  }, 100);
+};
+
+const skipTurn = () => {
+  btnAskCard.classList.add("btnDisabled"); //se podría utilizar también btnAskCard.disabled = true
+  btnStopGame.classList.add("btnDisabled");
+  computerTurn(playerPoints);
+};
+
+/*LISTENERS*/
 btnAskCard.addEventListener("click", () => {
   const card = askCard();
 
@@ -61,4 +100,24 @@ btnAskCard.addEventListener("click", () => {
   cardImg.src = `./assets/cards/${card}.png `; //muestro la carta en el html
   cardImg.classList.add("cards"); // le agrego la clase dinámicamente
   divPlayerCards.append(cardImg); //muestro la img dentro del div
+
+  //CONTROLAR PUNTOS
+  if (playerPoints > 21) {
+    alert("ups perdiste!");
+    skipTurn();
+  } else if (playerPoints === 21) {
+    alert("llegaste a 21!");
+    computerTurn(playerPoints);
+  }
 });
+
+btnStopGame.addEventListener("click", () => {
+  skipTurn();
+});
+
+btnNewGame.addEventListener("click", () => {
+  deck = []; //reseteo el deck
+  createDeck(); //creo uno nuevo
+});
+
+//BORRAR
