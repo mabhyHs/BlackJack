@@ -8,6 +8,7 @@ let computerPoints = 0;
 //HTML
 const btnAskCard = document.querySelector("#btnAskCard");
 const showPointsSmalls = document.querySelectorAll("small");
+const divPlayerCards = document.querySelector("#player-cards");
 
 // crear nueva baraja
 const createDeck = () => {
@@ -50,6 +51,14 @@ const valor = cardValue(askCard());
 //Necesito poder "Escuchar" cuando se presiona un botón
 btnAskCard.addEventListener("click", () => {
   const card = askCard();
+
+  //MOSTRAR PUNTOS HTML
   playerPoints = playerPoints + cardValue(card); //modifico los puntos del jugador a medida que va pidiendo más cartas
   showPointsSmalls[0].innerText = playerPoints; //muestro los puntos en el html
+
+  //MOSTRAR LA IMG HTML
+  const cardImg = document.createElement("img");
+  cardImg.src = `./assets/cards/${card}.png `; //muestro la carta en el html
+  cardImg.classList.add("cards"); // le agrego la clase dinámicamente
+  divPlayerCards.append(cardImg); //muestro la img dentro del div
 });
