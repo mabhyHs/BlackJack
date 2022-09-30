@@ -116,8 +116,21 @@ btnStopGame.addEventListener("click", () => {
 });
 
 btnNewGame.addEventListener("click", () => {
+  console.clear();
   deck = []; //reseteo el deck
   createDeck(); //creo uno nuevo
+
+  playerPoints = 0;
+  computerPoints = 0;
+
+  showPointsSmalls[1].innerHTML = 0;
+  showPointsSmalls[0].innerHTML = 0;
+
+  divComputerCards.innerHTML = "";
+  divPlayerCards.innerHTML = "";
+
+  btnAskCard.classList.remove("btnDisabled");
+  btnStopGame.classList.remove("btnDisabled");
 });
 
 //BORRAR
