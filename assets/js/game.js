@@ -1,138 +1,145 @@
-(() => {
+const myModul = (() => {
   "use strict";
 
   let deck = [];
-  const cardsTypes = ["C", "D", "H", "S"];
-  const specialCards = ["A", "J", "Q", "K"];
+  const cardsTypes = ["C", "D", "H", "S"],
+    specialCards = ["A", "J", "Q", "K"];
 
-  let playerPoints = 0;
-  let computerPoints = 0;
+  let playersPoints = [];
 
-  /*HTML*/
-  const btnAskCard = document.querySelector("#btnAskCard");
-  const btnStopGame = document.querySelector("#btnStopGame");
-  const btnNewGame = document.querySelector("#btnNewGame");
+  // Referencias del HTML
+  const btnAskCard = document.querySelector("#btnAskCard"),
+    btnStopGame = document.querySelector("#btnStopGame"),
+    btnNewGame = document.querySelector("#btnNewGame");
 
-  const showPointsSmalls = document.querySelectorAll("small");
-  const divPlayerCards = document.querySelector("#player-cards");
-  const divComputerCards = document.querySelector("#computer-cards");
+  const divPlayersCards = document.querySelectorAll(".divPlayersCards"),
+    showPointsSmalls = document.querySelectorAll("small");
 
-  /*CREAR BARAJA*/
+  // Esta función inicializa el juego
+  const initializeGame = (playersNum = 2) => {
+    deck = createDeck();
+
+    playersPoints = [];
+    for (let i = 0; i < playersNum; i++) {
+      playersPoints.push(0);
+    }
+
+    showPointsSmalls.forEach((elem) => (elem.innerText = 0));
+    divPlayersCards.forEach((elem) => (elem.innerHTML = ""));
+
+    btnAskCard.disabled = false;
+    btnStopGame.disabled = false;
+  };
+
+  // Esta función crea un nuevo deck
   const createDeck = () => {
+    deck = [];
     for (let i = 2; i <= 10; i++) {
       for (let type of cardsTypes) {
         deck.push(i + type);
       }
     }
+
     for (let type of cardsTypes) {
-      for (let special of specialCards) {
-        deck.push(special + type);
+      for (let esp of specialCards) {
+        deck.push(esp + type);
       }
     }
-    deck = _.shuffle(deck); //libreria para hacer una especie de random con las cartas
-    console.log(deck);
+    return _.shuffle(deck);
   };
 
-  createDeck();
+  initializeGame();
 
-  /*LEVANTAR UNA CARTA*/
+  // Esta función me permite tomar una card
   const askCard = () => {
     if (deck.length === 0) {
-      throw "No hay más cartas en el deck"; //chequeo si no hay más cartas en el deck
+      throw "No hay cartas en el deck";
     }
-    const card = deck.pop(); //si hay cartas extraigo la última del array
-    return card;
+    return deck.pop();
   };
 
-  /*SABER EL VALOR DE UNA CARTA*/
   const cardValue = (card) => {
     const value = card.substring(0, card.length - 1);
     return isNaN(value) ? (value === "A" ? 11 : 10) : value * 1;
   };
 
-  const valor = cardValue(askCard());
+  // Turno: 0 = primer jugador y el último será la computadora
+  const collectPoints = (card, turn) => {
+    playersPoints[turn] = playersPoints[turn] + cardValue(card);
+    showPointsSmalls[turn].innerText = playersPoints[turn];
+    return playersPoints[turn];
+  };
 
-  /*TURNO DE LA COMPUTADORA*/
-  const computerTurn = (minPoints) => {
-    //utilizo do while ya que el ciclo debe ejecutarse al menos una vez
-    do {
-      const card = askCard();
-      computerPoints = computerPoints + cardValue(card);
-      showPointsSmalls[1].innerText = computerPoints;
+  const createCard = (card, turn) => {
+    const cardImg = document.createElement("img");
+    cardImg.src = `assets/cards/${card}.png`; //3H, JD
+    cardImg.classList.add("cards");
+    divPlayersCards[turn].append(cardImg);
+  };
 
-      //MOSTRAR LA IMG HTML
-      const cardImg = document.createElement("img");
-      cardImg.src = `./assets/cards/${card}.png `;
-      cardImg.classList.add("cards");
-      divComputerCards.append(cardImg);
-
-      if (minPoints > 21) {
-        break;
-      }
-    } while (computerPoints < minPoints && minPoints <= 21);
+  const determineWinner = () => {
+    const [minPoints, computerPoints] = playersPoints;
 
     setTimeout(() => {
       if (computerPoints === minPoints) {
-        alert("Nadie Gana");
+        alert("Nadie gana :(");
       } else if (minPoints > 21) {
-        alert("Computadora Gana!");
+        alert("Computadora gana");
       } else if (computerPoints > 21) {
-        alert("Jugador Gana!");
+        alert("Jugador Gana");
       } else {
-        alert("computadora gana");
+        alert("Computadora Gana");
       }
     }, 100);
   };
 
-  const skipTurn = () => {
-    btnAskCard.classList.add("btnDisabled"); //se podría utilizar también btnAskCard.disabled = true
-    btnStopGame.classList.add("btnDisabled");
-    computerTurn(playerPoints);
+  // turno de la computadora
+  const computerTurn = (minPoints) => {
+    let computerPoints = 0;
+
+    do {
+      const card = askCard();
+      computerPoints = collectPoints(card, playersPoints.length - 1);
+      createCard(card, playersPoints.length - 1);
+    } while (computerPoints < minPoints && minPoints <= 21);
+
+    determineWinner();
   };
 
-  /*LISTENERS*/
+  // Eventos
   btnAskCard.addEventListener("click", () => {
     const card = askCard();
+    const playerPoints = collectPoints(card, 0);
 
-    //MOSTRAR PUNTOS HTML
-    playerPoints = playerPoints + cardValue(card); //modifico los puntos del jugador a medida que va pidiendo más cartas
-    showPointsSmalls[0].innerText = playerPoints; //muestro los puntos en el html
+    createCard(card, 0);
 
-    //MOSTRAR LA IMG HTML
-    const cardImg = document.createElement("img");
-    cardImg.src = `./assets/cards/${card}.png `; //muestro la carta en el html
-    cardImg.classList.add("cards"); // le agrego la clase dinámicamente
-    divPlayerCards.append(cardImg); //muestro la img dentro del div
-
-    //CONTROLAR PUNTOS
     if (playerPoints > 21) {
-      alert("ups perdiste!");
-      skipTurn();
+      console.warn("Lo siento mucho, perdiste");
+      btnAskCard.disabled = true;
+      btnStopGame.disabled = true;
+      computerTurn(playerPoints);
     } else if (playerPoints === 21) {
-      alert("llegaste a 21!");
+      console.warn("21, genial!");
+      btnAskCard.disabled = true;
+      btnStopGame.disabled = true;
       computerTurn(playerPoints);
     }
   });
 
   btnStopGame.addEventListener("click", () => {
-    skipTurn();
+    btnAskCard.disabled = true;
+    btnStopGame.disabled = true;
+
+    computerTurn(playersPoints[0]);
   });
 
-  btnNewGame.addEventListener("click", () => {
-    console.clear();
-    deck = []; //reseteo el deck
-    createDeck(); //creo uno nuevo
+  // btnNewGame.addEventListener('click', () => {
 
-    playerPoints = 0;
-    computerPoints = 0;
+  //     initializeGame
 
-    showPointsSmalls[1].innerHTML = 0;
-    showPointsSmalls[0].innerHTML = 0;
+  // });
 
-    divComputerCards.innerHTML = "";
-    divPlayerCards.innerHTML = "";
-
-    btnAskCard.classList.remove("btnDisabled");
-    btnStopGame.classList.remove("btnDisabled");
-  });
-})(); //función anónima inaccesible desde el exterior
+  return {
+    newGame: initializeGame,
+  };
+})();

@@ -30,7 +30,7 @@
       <div class="col">
         <h4>Jugador 1 - <small>0</small></h4>
 
-        <div id="player-cards">
+        <div class="divPlayersCards">
           <!-- <img class="cards img-fluid" src="./assets/cards/10C.png" alt="" /> -->
         </div>
       </div>
@@ -40,7 +40,7 @@
       <div class="col">
         <h4>Computadora - <small>0</small></h4>
 
-        <div id="computer-cards">
+        <div class="divPlayersCards">
           <!-- <img class="cards img-fluid" src="./assets/cards/2C.png" alt="" /> -->
         </div>
       </div>
@@ -48,5 +48,11 @@
 
     <script src="./assets/js/underscore-min.js"></script>
     <script src="./assets/js/game.js"></script>
+
+    <script>
+      document.querySelector('#btnNewGame').addEventListener('click',() => {
+        myModul.newGame();
+      });
+    </script>
   </body>
 </html>
