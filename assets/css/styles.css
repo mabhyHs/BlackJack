@@ -2,6 +2,9 @@ html,
 body {
   margin: 0px;
   background-color: #2f4f30;
+  background-image: url('../bg/bg-texture.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
   color: white;
 }
 
