@@ -1,0 +1,22 @@
+{
+  "name": "blackjack",
+  "version": "1.0.0",
+  "description": "game task",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mabhyHs/BlackJack.git"
+  },
+  "author": "mabhy hs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mabhyHs/BlackJack/issues"
+  },
+  "homepage": "https://github.com/mabhyHs/BlackJack#readme",
+  "dependencies": {
+    "sweetalert2": "^11.4.37"
+  }
+}
