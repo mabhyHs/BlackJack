@@ -1,5 +1,5 @@
 const myModul = (() => {
-  "use strict";
+  ("use strict");
 
   let deck = [];
   const cardsTypes = ["C", "D", "H", "S"],
@@ -82,13 +82,45 @@ const myModul = (() => {
 
     setTimeout(() => {
       if (computerPoints === minPoints) {
-        alert("Nadie gana :(");
+        Swal.fire({
+          title: "EMPATE",
+          text: "Nadie Gana",
+          imageUrl:
+            "https://media4.giphy.com/media/3EiETHgDWzxfAr5JTw/giphy.gif?cid=790b761125647af3eec42f0e7a37c64828a60f4bf5e93038&rid=giphy.gif&ct=g",
+          imageWidth: 300,
+          imageHeight: 300,
+          imageAlt: "Custom image",
+        });
       } else if (minPoints > 21) {
-        alert("Computadora gana");
+        Swal.fire({
+          title: "PERDISTE",
+          text: "Computadora Gana",
+          imageUrl:
+            "https://media3.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif?cid=790b76119303a014478726643a1b2b5b02f2bad39a4c9e96&rid=giphy.gif&ct=g",
+          imageWidth: 300,
+          imageHeight: 300,
+          imageAlt: "Custom image",
+        });
       } else if (computerPoints > 21) {
-        alert("Jugador Gana");
+        Swal.fire({
+          title: "¡FELICIDADES!",
+          text: "Ganaste",
+          imageUrl:
+            "https://media4.giphy.com/media/IwAZ6dvvvaTtdI8SD5/giphy.gif?cid=790b76111d094110326ffd85b359d367307e2e845357585d&rid=giphy.gif&ct=g",
+          imageWidth: 300,
+          imageHeight: 300,
+          imageAlt: "Custom image",
+        });
       } else {
-        alert("Computadora Gana");
+        Swal.fire({
+          title: "PERDISTE",
+          text: "Computadora Gana",
+          imageUrl:
+            "https://media3.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif?cid=790b76119303a014478726643a1b2b5b02f2bad39a4c9e96&rid=giphy.gif&ct=g",
+          imageWidth: 300,
+          imageHeight: 300,
+          imageAlt: "Custom image",
+        });
       }
     }, 100);
   };
