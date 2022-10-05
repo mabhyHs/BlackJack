@@ -8,12 +8,14 @@ const myModul = (() => {
   let playersPoints = [];
 
   // Referencias del HTML
-  const btnAskCard = document.querySelector("#btnAskCard"),
-    btnStopGame = document.querySelector("#btnStopGame"),
-    btnNewGame = document.querySelector("#btnNewGame");
+  const playerNameHTML = document.querySelector(".playerName");
+  const btnAskCard = document.querySelector("#btnAskCard");
+  const btnStopGame = document.querySelector("#btnStopGame");
+  const btnNewGame = document.querySelector("#btnNewGame");
+  const btnSendName = document.querySelector(".btnSendName");
 
-  const divPlayersCards = document.querySelectorAll(".divPlayersCards"),
-    showPointsSmalls = document.querySelectorAll("small");
+  const divPlayersCards = document.querySelectorAll(".divPlayersCards");
+  const showPointsSmalls = document.querySelectorAll("small");
 
   // Esta función inicializa el juego
   const initializeGame = (playersNum = 2) => {
@@ -139,6 +141,12 @@ const myModul = (() => {
   };
 
   // Eventos
+  btnSendName.addEventListener("click", () => {
+    const playerName = document.querySelector(".playerNameInput").value;
+    playerNameHTML.innerHTML =
+      playerName.length === 0 ? "Jugador 1" : playerName;
+  });
+
   btnAskCard.addEventListener("click", () => {
     const card = askCard();
     const playerPoints = collectPoints(card, 0);
@@ -165,13 +173,7 @@ const myModul = (() => {
     computerTurn(playersPoints[0]);
   });
 
-  // btnNewGame.addEventListener('click', () => {
-
-  //     initializeGame
-
-  // });
-
-  return {
-    newGame: initializeGame,
-  };
+  btnNewGame.addEventListener("click", () => {
+    initializeGame();
+  });
 })();

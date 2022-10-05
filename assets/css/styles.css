@@ -1,17 +1,18 @@
 html,
 body {
   margin: 0px;
-  background-color: #2f4f30;
-  background-image: url('../bg/bg-texture.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: white;
+  background-color: #355936;
 }
 
 .title {
+  font-family: "BlackJack", sans-serif;
   text-align: center;
   padding: 2rem;
-  font-size: 1.5rem;
+  font-size: 3rem;
+  color: white;
+  background-image: url("../bg/bg-header.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .cards {
@@ -19,14 +20,36 @@ body {
   max-width: 150px;
   left: 100px;
   margin-left: -75px;
+  padding-top: 0.5rem;
 }
 
 .divPlayersCards {
-  height: 220px;
+  min-height: 250px;
+  max-width: 550px;
+  border: dotted 2.5px #487148;
+  border-radius: 20px;
 }
 
 .btnDisabled {
   cursor: not-allowed;
   background-color: rgb(229, 229, 229) !important;
   pointer-events: none;
+}
+
+h4 {
+  font-family: "BlackJack", sans-serif;
+  font-size: 2rem;
+  color: whitesmoke;
+}
+
+.modal-body h1 {
+  font-family: "Metropolis", sans-serif;
+  color: black;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+.modal-body span {
+  font-family: "BlackJack", sans-serif;
+  font-size: 1.5rem;
 }

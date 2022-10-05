@@ -11,6 +11,12 @@
       integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
       crossorigin="anonymous"
     />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="http://fonts.cdnfonts.com/css/black-jack" rel="stylesheet" />
+    <link href="http://fonts.cdnfonts.com/css/metropolis-4" rel="stylesheet" />
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="stylesheet" href="./assets/css/styles.css" />
@@ -18,19 +24,41 @@
     <title>Blackjack</title>
   </head>
   <body>
-    <header class="title">Blackjack</header>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal">
+      <div class="modal-dialog ">
+        <div class="modal-content pb-3">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body text-center">
+            <h1>¡Te damos la Bienvenida al <span>BlackJack</span> De Beitech!</h1>
+            <input type="text" class="playerNameInput form-control-sm" placeholder="Ingresa tu nombre" />
+            <button type="button" class="btnSendName btn btn-success btn-sm" data-dismiss="modal">Jugar</button>
+          </div>      
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <header class="title">BlackJack</header>
 
     <div class="row mt-2">
-      <div class="col text-center">
-        <button class="btn btn-danger" id="btnNewGame">Nuevo Juego</button>
-        <button class="btn btn-primary" id="btnAskCard">Pedir Carta</button>
-        <button class="btn btn-primary" id="btnStopGame">Detener</button>
+      <div class="col text-center my-5">
+        <button class="btn btn-outline-light" id="btnNewGame">Nuevo Juego</button>
+        <button class="btn btn-success" id="btnAskCard">Pedir Carta</button>
+        <button class="btn btn-danger" id="btnStopGame">Detener</button>
       </div>
     </div>
 
     <div class="row container">
       <div class="col">
-        <h4>Jugador 1 - <small>0</small></h4>
+        <h4><span class="playerName">Jugador 1</span> - <small>0</small></h4>
 
         <div class="divPlayersCards">
           <!-- <img class="cards img-fluid" src="./assets/cards/10C.png" alt="" /> -->
@@ -51,9 +79,10 @@
     <script src="./assets/js/underscore-min.js"></script>
     <script src="./assets/js/game.js"></script>
 
+   
     <script>
-      document.querySelector('#btnNewGame').addEventListener('click',() => {
-        myModul.newGame();
+      $(document).ready(function () {
+        $("#myModal").modal("show");
       });
     </script>
   </body>
